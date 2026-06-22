@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>感想を送る｜就活AI</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css" />
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/review.css" />
+</head>
+<body>
+  <div class="review-page">
+    <!-- ヘッダー -->
+    <header class="review-header">
+      <a href="../index.html" class="review-back" aria-label="戻る">
+        <i class="ti ti-arrow-left"></i>
+      </a>
+      <h1 class="review-title">感想を送る</h1>
+    </header>
+
+    <!-- フォーム本体 -->
+    <main class="review-main">
+      <div id="formArea">
+        <p class="review-intro">
+          就活AIを使ってみた感想を教えてください。<br />
+          投稿された内容はLPの「ユーザーの声」に掲載されることがあります。
+        </p>
+
+        <div class="review-form">
+          <!-- ニックネーム -->
+          <div class="review-field">
+            <label for="nickname">ニックネーム <span class="review-required">必須</span></label>
+            <input type="text" id="nickname" maxlength="20" placeholder="例：太郎" />
+            <p class="review-help">20文字以内</p>
+          </div>
+
+          <!-- 型選択 -->
+          <div class="review-field">
+            <label>あなたの型 <span class="review-optional">任意</span></label>
+            <div class="review-types">
+              <label class="review-type">
+                <input type="radio" name="userType" value="avoid" />
+                <span>回避・先延ばし型</span>
+              </label>
+              <label class="review-type">
+                <input type="radio" name="userType" value="comm" />
+                <span>コミュ不全型</span>
+              </label>
+              <label class="review-type">
+                <input type="radio" name="userType" value="lost" />
+                <span>情報過多・迷走型</span>
+              </label>
+              <label class="review-type">
+                <input type="radio" name="userType" value="unknown" checked />
+                <span>選ばない</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- 感想本文 -->
+          <div class="review-field">
+            <label for="content">感想 <span class="review-required">必須</span></label>
+            <textarea id="content" maxlength="500" placeholder="使ってみてどうでしたか？率直な感想をどうぞ。"></textarea>
+            <p class="review-help"><span id="charCount">0</span> / 500文字</p>
+          </div>
+
+          <!-- 送信ボタン -->
+          <button id="submitBtn" class="review-submit">
+            <i class="ti ti-send"></i>
+            投稿する
+          </button>
+
+          <p id="errorMsg" class="review-error" style="display: none;"></p>
+        </div>
+      </div>
+
+      <!-- 完了画面（最初は非表示） -->
+      <div id="completeArea" class="review-complete" style="display: none;">
+        <div class="review-complete-icon">
+          <i class="ti ti-circle-check"></i>
+        </div>
+        <h2>ありがとうございます！</h2>
+        <p>感想を投稿しました。<br />これからのサービス改善に活かしていきます。</p>
+        <div class="review-complete-actions">
+          <a href="../index.html" class="review-btn-primary">
+            <i class="ti ti-home"></i> トップに戻る
+          </a>
+          <a href="chat.html" class="review-btn-secondary">
+            <i class="ti ti-message"></i> もう一度チャットする
+          </a>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="../js/api.js"></script>
+  <script>
+    const nicknameInput = document.getElementById('nickname');
+    const contentInput = document.getElementById('content');
+    const charCount = document.getElementById('charCount');
+    const submitBtn = document.getElementById('submitBtn');
+    const errorMsg = document.getElementById('errorMsg');
+    const formArea = document.getElementById('formArea');
+    const completeArea = document.getElementById('completeArea');
+
+    // 文字数カウンター
+    contentInput.addEventListener('input', () => {
+      charCount.textContent = contentInput.value.length;
+    });
+
+    // エラー表示
+    function showError(msg) {
+      errorMsg.textContent = msg;
+      errorMsg.style.display = 'block';
+    }
+
+    function hideError() {
+      errorMsg.style.display = 'none';
+    }
+
+    // 送信処理
+    submitBtn.addEventListener('click', async () => {
+      hideError();
+
+      const nickname = nicknameInput.value.trim();
+      const content = contentInput.value.trim();
+      const userType = document.querySelector('input[name="userType"]:checked').value;
+
+      // バリデーション
+      if (!nickname) {
+        showError('ニックネームを入力してください');
+        return;
+      }
+      if (!content) {
+        showError('感想を入力してください');
+        return;
+      }
+      if (content.length > 500) {
+        showError('感想は500文字以内で入力してください');
+        return;
+      }
+
+      // 送信中はボタン無効化
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<i class="ti ti-loader"></i> 送信中...';
+
+      // API呼び出し
+      const result = await postReview(nickname, content, userType);
+
+      if (result && result.status === 'ok') {
+        // 完了画面表示
+        formArea.style.display = 'none';
+        completeArea.style.display = 'block';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        showError('投稿に失敗しました。時間をおいて再度お試しください。');
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '<i class="ti ti-send"></i> 投稿する';
+      }
+    });
+  </script>
+</body>
+</html>

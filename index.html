@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>就活AI — 就活問題児、大歓迎</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- Nav -->
+  <nav class="nav">
+    <div class="nav-logo">
+      <i class="ti ti-robot"></i>
+      就活AI
+    </div>
+    <a href="pages/chat.html" class="btn btn-primary btn-sm">今すぐ話す</a>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-inner">
+      <span class="badge badge-purple">
+        <i class="ti ti-sparkles"></i>就活問題児、大歓迎
+      </span>
+      <h1>「就活、<span class="accent">めんどくさい」</span><br>その一言から始めよう。</h1>
+      <p class="hero-desc">急かさない。説教しない。ただ話を聞いて、一緒に考える。<br>就活が苦手な人のためのAI相談相手。</p>
+      <div class="hero-btns">
+        <a href="pages/chat.html" class="btn btn-primary">無料で話してみる</a>
+        <a href="#how" class="btn btn-outline">詳しく見る</a>
+      </div>
+      <p class="hero-note"><i class="ti ti-lock"></i> 登録不要・完全無料</p>
+    </div>
+  </section>
+
+  <!-- 3つの型 -->
+  <section class="section" id="types">
+    <div class="section-inner">
+      <p class="section-label">こんな人に</p>
+      <h2 class="section-title">就活問題児、3つの型</h2>
+      <div class="type-grid">
+        <div class="type-card type-card--purple">
+          <div class="type-icon">
+            <i class="ti ti-clock-pause"></i>
+          </div>
+          <h3>回避・先延ばし型</h3>
+          <p>「めんどくさい」でサイト登録だけして止まってる</p>
+          <span class="tag tag-purple">メインターゲット</span>
+        </div>
+        <div class="type-card type-card--teal">
+          <div class="type-icon type-icon--teal">
+            <i class="ti ti-message-off"></i>
+          </div>
+          <h3>コミュ不全型</h3>
+          <p>ESや面接が苦手で誰にも相談できない</p>
+          <span class="tag tag-teal">対応あり</span>
+        </div>
+        <div class="type-card type-card--coral">
+          <div class="type-icon type-icon--coral">
+            <i class="ti ti-arrows-shuffle"></i>
+          </div>
+          <h3>情報過多・迷走型</h3>
+          <p>何がしたいかわからず手当たり次第に応募</p>
+          <span class="tag tag-coral">対応あり</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 使い方 -->
+  <section class="section section--bg" id="how">
+    <div class="section-inner">
+      <p class="section-label">使い方</p>
+      <h2 class="section-title">3ステップで始められる</h2>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <h4>まず話しかけるだけ</h4>
+            <p>「就活したくない」「めんどくさい」何でもOK。登録も準備も不要。</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <h4>AIが型を自動判定</h4>
+            <p>会話から回避型・コミュ型・迷走型を自動で判定。それぞれに合ったペースで話が進む。</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-body">
+            <h4>小さい一歩を一緒に見つける</h4>
+            <p>急かさず、ハードルを極限まで下げたアクションを提案。「これならできるかも」から始める。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ユーザーの声 -->
+  <section class="section" id="voices">
+    <div class="section-inner">
+      <p class="section-label">ユーザーの声</p>
+      <h2 class="section-title">使ってみた感想</h2>
+      <div class="voices" id="voicesContainer">
+        <!-- JSで動的に挿入される -->
+        <div class="voices-loading">読み込み中...</div>
+      </div>
+      <div class="voices-cta">
+        <a href="pages/review.html" class="voices-cta-btn">
+          <i class="ti ti-edit"></i>
+          感想を送る
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <div class="section-inner" style="text-align:center">
+      <h2>まず、話しかけてみて。</h2>
+      <p>登録不要。無料。急かさない。<br>「就活したくない」その一言から始めよう。</p>
+      <a href="pages/chat.html" class="btn btn-primary">今すぐ話してみる（無料）</a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-logo"><i class="ti ti-robot"></i>就活AI</div>
+    <p>© 2025 就活支援AI</p>
+  </footer>
+<script src="js/api.js"></script>
+  <script>
+    // ===== ユーザーの声を動的に取得 =====
+    const typeLabels = {
+      avoid:   { label: '回避型',     tag: 'tag-purple' },
+      comm:    { label: 'コミュ型',   tag: 'tag-teal' },
+      lost:    { label: '迷走型',     tag: 'tag-teal' },
+      unknown: { label: '',           tag: '' }
+    };
+
+    // デフォルト表示（感想がまだ無い時に使う）
+    const defaultVoices = [
+      {
+        nickname: 'Sさん・文系3年',
+        user_type: 'avoid',
+        content: '「説教されると思ったけど全然違った。ただ話聞いてくれる感じで、気づいたらESの話してた。」'
+      },
+      {
+        nickname: 'Kさん・理系4年',
+        user_type: 'lost',
+        content: '「大手しか見えてなかったのが、質問されてるうちに自分でも気づいてなかったこだわりが見えてきた。」'
+      }
+    ];
+
+    // 感想カードのHTMLを生成
+    function createVoiceCard(review) {
+      const type = typeLabels[review.user_type] || typeLabels.unknown;
+      const tagHtml = type.label
+        ? `<span class="tag ${type.tag}">${type.label}</span>`
+        : '';
+      const initial = review.nickname ? review.nickname.charAt(0).toUpperCase() : '?';
+      // 引用符を付ける（既に付いていなければ）
+      let content = review.content;
+      if (!content.startsWith('「')) {
+        content = '「' + content;
+      }
+      if (!content.endsWith('」')) {
+        content = content + '」';
+      }
+
+      return `
+        <div class="voice">
+          <div class="voice-meta">
+            <div class="voice-avatar">${initial}</div>
+            <span class="voice-name">${review.nickname}</span>
+            ${tagHtml}
+          </div>
+          <p>${content}</p>
+        </div>
+      `;
+    }
+
+    // 感想セクションを描画
+    function renderVoices(reviews) {
+      const container = document.getElementById('voicesContainer');
+      const list = reviews && reviews.length > 0 ? reviews : defaultVoices;
+      container.innerHTML = list.map(createVoiceCard).join('');
+    }
+
+    // APIから感想を取得して表示
+    async function loadVoices() {
+      const data = await apiGet('/api/reviews');
+      if (data && data.reviews && data.reviews.length > 0) {
+        renderVoices(data.reviews);
+      } else {
+        // 取得失敗 or 感想が0件 → デフォルト表示
+        renderVoices([]);
+      }
+    }
+
+    loadVoices();
+  </script>
+</body>
+</html>

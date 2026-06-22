@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>就活AI — チャット</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" />
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/chat.css" />
+</head>
+<body class="chat-body">
+
+  <div class="chat-layout">
+
+    <!-- Header -->
+    <header class="chat-header">
+      <a href="../index.html" class="back-btn" aria-label="戻る">
+        <i class="ti ti-arrow-left"></i>
+      </a>
+      <div class="chat-header-info">
+        <div class="chat-avatar"><i class="ti ti-robot"></i></div>
+        <div>
+          <p class="chat-name">就活AI</p>
+          <p class="chat-status"><span class="status-dot"></span>オンライン</p>
+        </div>
+      </div>
+      <span class="type-badge" id="typeBadge" style="display:none"></span>
+    </header>
+
+    <!-- Messages -->
+    <main class="chat-messages" id="chatMessages">
+      <div class="msg-row msg-row--ai">
+        <div class="bubble-avatar"><i class="ti ti-robot"></i></div>
+        <div>
+          <div class="bubble bubble--ai">よー！何か話したいこととかある？就活でも、それ以外でも全然OK</div>
+          <div class="choices" id="initialChoices">
+            <button class="choice-btn" onclick="sendChoice('就活したくないです')">
+              <i class="ti ti-mood-sad"></i>就活したくないです
+            </button>
+            <button class="choice-btn" onclick="sendChoice('何から始めればいいかわかりません')">
+              <i class="ti ti-help-circle"></i>何から始めればいいかわかりません
+            </button>
+            <button class="choice-btn" onclick="sendChoice('面接が苦手です')">
+              <i class="ti ti-microphone-off"></i>面接が苦手です
+            </button>
+            <button class="choice-btn" onclick="sendChoice('やりたいことがわかりません')">
+              <i class="ti ti-search-off"></i>やりたいことがわかりません
+            </button>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Input -->
+    <footer class="chat-input-area">
+      <div class="chat-input-box">
+        <input type="text" id="chatInput" placeholder="気軽に話しかけてみて..." autocomplete="off" />
+        <button class="send-btn" id="sendBtn" onclick="handleSend()" aria-label="送信">
+          <i class="ti ti-send"></i>
+        </button>
+      </div>
+      <p class="input-hint">選択肢を選ぶか、自由に入力してね</p>
+    </footer>
+
+  </div>
+
+  <script src="../js/api.js"></script>
+  <script src="../js/chat.js"></script>
+</body>
+</html>

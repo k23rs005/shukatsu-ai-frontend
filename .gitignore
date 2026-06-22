@@ -1,0 +1,11 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# エディタ
+.vscode/
+.idea/
+
+# その他
+node_modules/
+*.log

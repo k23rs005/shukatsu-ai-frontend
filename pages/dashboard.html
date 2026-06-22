@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>管理ダッシュボード — 就活AI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" />
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/dashboard.css" />
+</head>
+<body class="db-body-wrap">
+
+  <div class="db-layout">
+
+    <!-- Sidebar -->
+    <aside class="db-sidebar">
+      <div class="db-sidebar-logo">
+        <i class="ti ti-robot"></i>
+        <span>就活AI</span>
+      </div>
+      <nav class="db-sidebar-nav">
+        <a href="#" class="db-nav-item active" data-page="overview">
+          <i class="ti ti-layout-dashboard"></i>概要
+        </a>
+        <a href="#" class="db-nav-item" data-page="logs">
+          <i class="ti ti-messages"></i>会話ログ
+        </a>
+        <a href="#" class="db-nav-item" data-page="analysis">
+          <i class="ti ti-chart-pie"></i>型別分析
+        </a>
+        <a href="#" class="db-nav-item" data-page="reviews">
+          <i class="ti ti-message-heart"></i>感想管理
+        </a>
+        <a href="#" class="db-nav-item" data-page="settings">
+          <i class="ti ti-settings"></i>設定
+        </a>
+      </nav>
+      <div class="db-sidebar-footer">
+        <a href="../index.html" class="db-nav-item">
+          <i class="ti ti-arrow-left"></i>サイトに戻る
+        </a>
+      </div>
+    </aside>
+
+    <!-- Main -->
+    <div class="db-main">
+
+      <!-- Header -->
+      <header class="db-header">
+        <div>
+          <h1 class="db-page-title" id="pageTitle">概要</h1>
+          <p class="db-page-sub">最終更新: <span id="lastUpdated"></span></p>
+        </div>
+        <div class="db-header-actions">
+          <span class="live-badge"><span class="live-dot"></span>ライブ</span>
+          <button class="icon-btn" id="refreshBtn" aria-label="データを更新">
+            <i class="ti ti-refresh"></i>
+          </button>
+        </div>
+      </header>
+
+      <!-- Pages -->
+      <main class="db-content">
+
+        <!-- 概要ページ -->
+        <section id="page-overview" class="db-page">
+
+          <!-- メトリクス -->
+          <div class="metrics-grid">
+            <div class="metric-card">
+              <div class="metric-label"><i class="ti ti-messages"></i>総会話数</div>
+              <div class="metric-val">1,284</div>
+              <div class="metric-sub trend-up"><i class="ti ti-trending-up"></i>先週比 +12%</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-label"><i class="ti ti-users"></i>ユニークユーザー</div>
+              <div class="metric-val">438</div>
+              <div class="metric-sub trend-up"><i class="ti ti-trending-up"></i>先週比 +8%</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-label"><i class="ti ti-clock"></i>平均ターン数</div>
+              <div class="metric-val">6.2</div>
+              <div class="metric-sub" style="color:var(--text-hint)">目標: 5ターン以上</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-label"><i class="ti ti-mood-smile"></i>行動移行率</div>
+              <div class="metric-val">34%</div>
+              <div class="metric-sub trend-down"><i class="ti ti-trending-down"></i>先週比 −2%</div>
+            </div>
+          </div>
+
+          <!-- チャート行 -->
+          <div class="chart-row">
+
+            <!-- 型別分布 -->
+            <div class="card">
+              <div class="card-title">型別ユーザー分布 <span>今週</span></div>
+              <div class="donut-wrap">
+                <canvas id="donutChart" width="120" height="120" aria-label="型別ユーザー分布ドーナツグラフ"></canvas>
+                <div class="donut-legend">
+                  <div class="legend-item">
+                    <span class="legend-dot" style="background:#534AB7"></span>
+                    回避・先延ばし型
+                    <span class="legend-val">60%</span>
+                  </div>
+                  <div class="legend-item">
+                    <span class="legend-dot" style="background:#1D9E75"></span>
+                    コミュ不全型
+                    <span class="legend-val">30%</span>
+                  </div>
+                  <div class="legend-item">
+                    <span class="legend-dot" style="background:#D85A30"></span>
+                    情報過多・迷走型
+                    <span class="legend-val">10%</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 日別会話数 -->
+            <div class="card">
+              <div class="card-title">日別会話数 <span>直近7日</span></div>
+              <canvas id="barChart" height="120" aria-label="日別会話数棒グラフ"></canvas>
+              <div style="margin-top:16px">
+                <div class="bar-row">
+                  <span class="bar-label">フェーズ1止まり</span>
+                  <div class="bar-track"><div class="bar-fill" style="width:55%;background:var(--gray-200)"></div></div>
+                  <span class="bar-num">55%</span>
+                </div>
+                <div class="bar-row">
+                  <span class="bar-label">フェーズ3到達</span>
+                  <div class="bar-track"><div class="bar-fill" style="width:34%;background:var(--purple)"></div></div>
+                  <span class="bar-num">34%</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- 会話ログテーブル -->
+          <div class="card">
+            <div class="card-title">最近の会話ログ <span>直近20件</span></div>
+            <div class="table-wrap">
+              <table class="log-table" aria-label="最近の会話ログ">
+                <thead>
+                  <tr>
+                    <th>時刻</th>
+                    <th>ユーザーID</th>
+                    <th>型</th>
+                    <th>ターン数</th>
+                    <th>最初の発言</th>
+                    <th>状態</th>
+                  </tr>
+                </thead>
+                <tbody id="logTableBody"></tbody>
+              </table>
+            </div>
+          </div>
+
+        </section>
+
+        <!-- 会話ログページ -->
+        <section id="page-logs" class="db-page" style="display:none">
+          <div class="card">
+            <div class="card-title">全会話ログ <span id="logCount"></span></div>
+            <div style="display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap">
+              <select id="filterType" class="filter-select" aria-label="型でフィルター">
+                <option value="">すべての型</option>
+                <option value="回避型">回避型</option>
+                <option value="コミュ型">コミュ型</option>
+                <option value="迷走型">迷走型</option>
+              </select>
+              <select id="filterStatus" class="filter-select" aria-label="状態でフィルター">
+                <option value="">すべての状態</option>
+                <option value="進行中">進行中</option>
+                <option value="終了">終了</option>
+              </select>
+            </div>
+            <div class="table-wrap">
+              <table class="log-table" aria-label="全会話ログ">
+                <thead>
+                  <tr>
+                    <th>時刻</th>
+                    <th>ユーザーID</th>
+                    <th>型</th>
+                    <th>ターン数</th>
+                    <th>最初の発言</th>
+                    <th>状態</th>
+                  </tr>
+                </thead>
+                <tbody id="fullLogTableBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- 型別分析ページ -->
+        <section id="page-analysis" class="db-page" style="display:none">
+          <div class="analysis-grid">
+            <div class="card">
+              <div class="card-title">回避・先延ばし型 <span class="type-pill pill-avoid">60%</span></div>
+              <div class="analysis-stat">
+                <div class="a-stat"><span>平均ターン数</span><strong>5.8</strong></div>
+                <div class="a-stat"><span>行動移行率</span><strong>29%</strong></div>
+                <div class="a-stat"><span>よく出るワード</span><strong>めんどくさい / 後で</strong></div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-title">コミュニケーション不全型 <span class="type-pill pill-comm">30%</span></div>
+              <div class="analysis-stat">
+                <div class="a-stat"><span>平均ターン数</span><strong>7.4</strong></div>
+                <div class="a-stat"><span>行動移行率</span><strong>41%</strong></div>
+                <div class="a-stat"><span>よく出るワード</span><strong>面接 / 苦手 / 話せない</strong></div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-title">情報過多・迷走型 <span class="type-pill pill-lost">10%</span></div>
+              <div class="analysis-stat">
+                <div class="a-stat"><span>平均ターン数</span><strong>8.1</strong></div>
+                <div class="a-stat"><span>行動移行率</span><strong>38%</strong></div>
+                <div class="a-stat"><span>よく出るワード</span><strong>大手 / わからない / 迷う</strong></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 設定ページ -->
+         <!-- 感想管理ページ -->
+        <section id="page-reviews" class="db-page" style="display:none">
+          <div class="card">
+            <div class="card-title">投稿された感想 <span id="reviewCount"></span></div>
+            <div class="table-wrap">
+              <table class="log-table" aria-label="感想一覧">
+                <thead>
+                  <tr>
+                    <th>投稿日時</th>
+                    <th>ニックネーム</th>
+                    <th>型</th>
+                    <th>感想本文</th>
+                    <th>操作</th>
+                  </tr>
+                </thead>
+                <tbody id="reviewTableBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+        <section id="page-settings" class="db-page" style="display:none">
+          <div class="card" style="max-width:520px">
+            <div class="card-title">Gemini API設定</div>
+            <div class="setting-row">
+              <label class="setting-label">APIキー</label>
+              <div style="display:flex;gap:8px">
+                <input type="password" id="apiKeyInput" placeholder="AIza..." class="setting-input" />
+                <button class="setting-btn" onclick="saveApiKey()">保存</button>
+              </div>
+            </div>
+            <div class="setting-row">
+              <label class="setting-label">使用モデル</label>
+              <select class="setting-input" style="width:auto">
+                <option>gemini-1.5-flash</option>
+                <option>gemini-1.5-pro</option>
+              </select>
+            </div>
+            <div class="setting-row">
+              <label class="setting-label">最大トークン数</label>
+              <input type="number" value="300" class="setting-input" style="width:100px" />
+            </div>
+          </div>
+          <div class="card" style="max-width:520px;margin-top:12px">
+            <div class="card-title">プロンプト管理</div>
+            <div class="setting-row">
+              <label class="setting-label">システムプロンプト</label>
+              <textarea class="setting-textarea" rows="6" placeholder="プロンプトをここに入力..."></textarea>
+            </div>
+            <button class="setting-btn">プロンプトを更新</button>
+          </div>
+        </section>
+
+      </main>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script src="../js/api.js"></script>
+  <script>
+    // ===== ナビゲーション切り替え =====
+    document.querySelectorAll('.db-nav-item[data-page]').forEach(item => {
+      item.addEventListener('click', (e) => {
+        e.preventDefault();
+        const pageId = item.dataset.page;
+
+        // 全ページを非表示
+        document.querySelectorAll('.db-page').forEach(p => p.style.display = 'none');
+        // ナビのactiveを切り替え
+        document.querySelectorAll('.db-nav-item').forEach(n => n.classList.remove('active'));
+
+        // 選択したページを表示
+        const targetPage = document.getElementById(`page-${pageId}`);
+        if (targetPage) targetPage.style.display = '';
+        item.classList.add('active');
+
+        // ページタイトルを更新
+        const titles = {
+          overview: '概要',
+          logs:     '会話ログ',
+          analysis: '型別分析',
+          reviews:  '感想管理',
+          settings: '設定'
+        };
+        document.getElementById('pageTitle').textContent = titles[pageId] || '';
+
+        // 感想管理ページを開いた時は、感想を取得
+        if (pageId === 'reviews') {
+          loadReviews();
+        }
+      });
+    });
+
+    // ===== 感想一覧を取得して表示 =====
+    const typeLabels = {
+      avoid:   '回避型',
+      comm:    'コミュ型',
+      lost:    '迷走型',
+      unknown: '—'
+    };
+
+    async function loadReviews() {
+      const tbody = document.getElementById('reviewTableBody');
+      const count = document.getElementById('reviewCount');
+      tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:#888780;padding:24px">読み込み中...</td></tr>';
+
+      const data = await apiGet('/api/admin/reviews');
+
+      if (!data || !data.reviews) {
+        tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:#D85A30;padding:24px">取得に失敗しました</td></tr>';
+        count.textContent = '';
+        return;
+      }
+
+      const reviews = data.reviews;
+      count.textContent = `${reviews.length}件`;
+
+      if (reviews.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:#888780;padding:24px">まだ感想は投稿されていません</td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = reviews.map(r => {
+        const date = new Date(r.created_at);
+        const formattedDate = `${date.getFullYear()}/${String(date.getMonth()+1).padStart(2,'0')}/${String(date.getDate()).padStart(2,'0')} ${String(date.getHours()).padStart(2,'0')}:${String(date.getMinutes()).padStart(2,'0')}`;
+        return `
+          <tr>
+            <td>${formattedDate}</td>
+            <td>${escapeHtml(r.nickname)}</td>
+            <td>${typeLabels[r.user_type] || '—'}</td>
+            <td style="max-width:400px;white-space:normal">${escapeHtml(r.content)}</td>
+            <td>
+              <button class="delete-btn" onclick="deleteReview(${r.id})">
+                <i class="ti ti-trash"></i> 削除
+              </button>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    // ===== 感想を削除 =====
+    async function deleteReview(id) {
+      if (!confirm('この感想を削除しますか？\nこの操作は取り消せません。')) return;
+
+      try {
+        const res = await fetch(`${BACKEND_URL}/api/admin/reviews/${id}`, {
+          method: 'DELETE'
+        });
+        if (!res.ok) throw new Error(`削除失敗: ${res.status}`);
+        // 削除成功 → 一覧を再取得
+        loadReviews();
+      } catch (err) {
+        alert('削除に失敗しました');
+        console.error(err);
+      }
+    }
+
+    // XSS対策
+    function escapeHtml(str) {
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+  </script>
+  <script src="../js/dashboard.js"></script>
+</body>
+</html>
