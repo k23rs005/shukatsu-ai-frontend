@@ -111,10 +111,16 @@
         <!-- JSで動的に挿入される -->
         <div class="voices-loading">読み込み中...</div>
       </div>
+      <div class="voices-more">
+        <button id="voicesMoreBtn" class="voices-more-btn" onclick="showMoreVoices()" style="display:none">
+          <i class="ti ti-chevron-down"></i>
+          もっとみる
+        </button>
+      </div>
       <div class="voices-cta">
         <a href="pages/review.html" class="voices-cta-btn">
           <i class="ti ti-edit"></i>
-          感想を送る
+          あなたも感想を送る
         </a>
       </div>
     </div>
@@ -185,26 +191,51 @@
         </div>
       `;
     }
+// グローバル変数で全感想と現在の表示件数を管理
+let allReviews = [];
+const VOICES_PER_PAGE = 5; // 1回の表示件数
+let visibleCount = VOICES_PER_PAGE;
+  // 感想セクションを描画
+function renderVoices() {
+  const container = document.getElementById('voicesContainer');
+  const list = allReviews.length > 0 ? allReviews : defaultVoices;
+  const visible = list.slice(0, visibleCount);
+  container.innerHTML = visible.map(createVoiceCard).join('');
 
-    // 感想セクションを描画
-    function renderVoices(reviews) {
-      const container = document.getElementById('voicesContainer');
-      const list = reviews && reviews.length > 0 ? reviews : defaultVoices;
-      container.innerHTML = list.map(createVoiceCard).join('');
-    }
+  // 「もっとみる」ボタンの表示制御
+  updateMoreButton(list.length);
+}
 
-    // APIから感想を取得して表示
-    async function loadVoices() {
-      const data = await apiGet('/api/reviews');
-      if (data && data.reviews && data.reviews.length > 0) {
-        renderVoices(data.reviews);
-      } else {
-        // 取得失敗 or 感想が0件 → デフォルト表示
-        renderVoices([]);
-      }
-    }
+// 「もっとみる」ボタンの表示・非表示
+function updateMoreButton(total) {
+  let moreBtn = document.getElementById('voicesMoreBtn');
+  if (visibleCount >= total) {
+    // 全部表示済みならボタンを隠す
+    if (moreBtn) moreBtn.style.display = 'none';
+  } else {
+    // まだあるならボタンを表示
+    if (moreBtn) moreBtn.style.display = 'inline-flex';
+  }
+}
 
-    loadVoices();
+// 「もっとみる」クリック処理
+function showMoreVoices() {
+  visibleCount += VOICES_PER_PAGE;
+  renderVoices();
+}
+
+  // APIから感想を取得して表示
+async function loadVoices() {
+  const data = await apiGet('/api/reviews');
+  if (data && data.reviews && data.reviews.length > 0) {
+    allReviews = data.reviews;
+  } else {
+    allReviews = defaultVoices;
+  }
+  renderVoices();
+}
+
+loadVoices();
   </script>
 </body>
 </html>

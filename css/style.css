@@ -294,3 +294,33 @@ img { max-width: 100%; display: block; }
   background: #00B4A6;
   color: #FFFFFF;
 }
+/* ===== もっとみるボタン ===== */
+.voices-more {
+  text-align: center;
+  margin-top: 24px;
+}
+
+.voices-more-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 20px;
+  background: transparent;
+  color: #5A6A85;
+  border: 1.5px solid #D0D8E8;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: inherit;
+}
+
+.voices-more-btn:hover {
+  border-color: #00B4A6;
+  color: #00B4A6;
+}
+
+.voices-more-btn i {
+  font-size: 14px;
+}
