@@ -18,7 +18,13 @@
       <i class="ti ti-robot"></i>
       就活AI
     </div>
-    <a href="pages/chat.html" class="btn btn-primary btn-sm">今すぐ話す</a>
+    <div class="nav-links">
+      <a href="pages/company.html" class="nav-link">
+        <i class="ti ti-building"></i>
+        企業一覧
+      </a>
+      <a href="pages/onboarding.html" class="btn btn-primary btn-sm">今すぐ話す</a>
+    </div>
   </nav>
 
   <!-- Hero -->
@@ -30,7 +36,7 @@
       <h1>「就活、<span class="accent">めんどくさい」</span><br>その一言から始めよう。</h1>
       <p class="hero-desc">急かさない。説教しない。ただ話を聞いて、一緒に考える。<br>就活が苦手な人のためのAI相談相手。</p>
       <div class="hero-btns">
-        <a href="pages/chat.html" class="btn btn-primary">無料で話してみる</a>
+        <a href="pages/onboarding.html" class="btn btn-primary">無料で話してみる</a>
         <a href="#how" class="btn btn-outline">詳しく見る</a>
       </div>
       <p class="hero-note"><i class="ti ti-lock"></i> 登録不要・完全無料</p>
@@ -126,12 +132,12 @@
     </div>
   </section>
 
-  <!-- CTA -->
+<!-- CTA -->
   <section class="cta-section">
     <div class="section-inner" style="text-align:center">
       <h2>まず、話しかけてみて。</h2>
       <p>登録不要。無料。急かさない。<br>「就活したくない」その一言から始めよう。</p>
-      <a href="pages/chat.html" class="btn btn-primary">今すぐ話してみる（無料）</a>
+      <a href="pages/onboarding.html" class="btn btn-primary">今すぐ話してみる（無料）</a>
     </div>
   </section>
 
@@ -142,6 +148,37 @@
   </footer>
 <script src="js/api.js"></script>
   <script>
+
+    <!-- 企業一覧へのCTA -->
+  <section class="section" id="companies-cta">
+    <div class="section-inner">
+      <p class="section-label">登録企業</p>
+      <h2 class="section-title">就活AIに登録された企業</h2>
+      <p class="companies-cta-desc">
+        業界・働き方・社風で絞り込み可能。<br>
+        あなたに合う会社を、条件から探してみよう。
+      </p>
+      <div class="companies-cta-stats">
+        <div class="companies-cta-stat">
+          <span class="companies-cta-num">50</span>
+          <span class="companies-cta-label">登録企業</span>
+        </div>
+        <div class="companies-cta-stat">
+          <span class="companies-cta-num">11</span>
+          <span class="companies-cta-label">業界</span>
+        </div>
+        <div class="companies-cta-stat">
+          <span class="companies-cta-num">6</span>
+          <span class="companies-cta-label">検索条件</span>
+        </div>
+      </div>
+      <a href="pages/company.html" class="btn btn-outline btn-companies">
+        <i class="ti ti-building"></i>
+        企業一覧を見る
+      </a>
+    </div>
+  </section>
+  
     // ===== ユーザーの声を動的に取得 =====
     const typeLabels = {
       avoid:   { label: '回避型',     tag: 'tag-purple' },

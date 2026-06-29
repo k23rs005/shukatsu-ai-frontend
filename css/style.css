@@ -324,3 +324,97 @@ img { max-width: 100%; display: block; }
 .voices-more-btn i {
   font-size: 14px;
 }
+
+/* ===== ナビゲーション拡張 ===== */
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.nav-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: #1B2A47;
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+  transition: background 0.2s;
+}
+
+.nav-link:hover {
+  background: #F4F6F9;
+  color: #00B4A6;
+}
+
+.nav-link i {
+  font-size: 16px;
+}
+
+/* ===== 企業一覧CTAセクション ===== */
+.companies-cta-desc {
+  text-align: center;
+  color: #5A6A85;
+  font-size: 15px;
+  line-height: 1.8;
+  margin: 0 0 32px;
+}
+
+.companies-cta-stats {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  margin-bottom: 32px;
+  flex-wrap: wrap;
+}
+
+.companies-cta-stat {
+  text-align: center;
+}
+
+.companies-cta-num {
+  display: block;
+  font-size: 36px;
+  font-weight: 700;
+  color: #00B4A6;
+  line-height: 1.2;
+}
+
+.companies-cta-label {
+  display: block;
+  font-size: 12px;
+  color: #5A6A85;
+  margin-top: 4px;
+  font-weight: 500;
+}
+
+.btn-companies {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0 auto;
+}
+
+#companies-cta {
+  text-align: center;
+}
+
+/* スマホ */
+@media (max-width: 480px) {
+  .nav-link span,
+  .nav-link {
+    font-size: 13px;
+  }
+  .nav-link i {
+    font-size: 14px;
+  }
+  .companies-cta-stats {
+    gap: 24px;
+  }
+  .companies-cta-num {
+    font-size: 28px;
+  }
+}
