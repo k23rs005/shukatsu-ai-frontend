@@ -1,3 +1,11 @@
+// ===== ログインチェック =====
+(async function checkAuth() {
+  const me = await authMe();
+  if (!me || !me.logged_in) {
+    window.location.href = 'login.html';
+  }
+})();
+
 // ===== Dify API設定 =====
 const DIFY_API_KEY = 'app-k7iaVxyTD3M0cNN9BEbGuBOu'; // ← DifyのAPIキーに変更
 const DIFY_API_URL = 'https://api.dify.ai/v1/chat-messages';

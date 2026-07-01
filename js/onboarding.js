@@ -206,5 +206,16 @@ document.addEventListener('keydown', (e) => {
   }
 });
 
-// ===== 初期描画 =====
-renderStep();
+// ===== 初期描画（ログインチェック後） =====
+async function initOnboarding() {
+  const me = await authMe();
+  if (!me || !me.logged_in) {
+    // 未ログインならログイン画面へ
+    window.location.href = 'login.html';
+    return;
+  }
+  // ログイン済みならオンボーディング開始
+  renderStep();
+}
+
+initOnboarding();

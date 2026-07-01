@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>新規登録｜就活AI</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css" />
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/auth.css" />
+</head>
+<body>
+  <div class="auth-page">
+
+    <header class="auth-header">
+      <a href="../index.html" class="auth-back" aria-label="戻る">
+        <i class="ti ti-arrow-left"></i>
+      </a>
+      <h1 class="auth-title">新規登録</h1>
+    </header>
+
+    <main class="auth-main">
+      <div class="auth-card">
+        <div class="auth-logo">
+          <i class="ti ti-robot"></i>
+          就活AI
+        </div>
+        <p class="auth-subtitle">アカウントを作成して始めよう</p>
+
+        <div class="auth-field">
+          <label for="studentId">学籍番号</label>
+          <input type="text" id="studentId" placeholder="例：23RS000" autocomplete="username" />
+          <p class="auth-help">九州産業大学の学籍番号を入力してください</p>
+        </div>
+
+        <div class="auth-field">
+          <label for="nickname">ニックネーム</label>
+          <input type="text" id="nickname" placeholder="例：九産太郎" maxlength="50" />
+          <p class="auth-help">サイト内で表示される名前です</p>
+        </div>
+
+        <div class="auth-field">
+          <label for="password">パスワード</label>
+          <input type="password" id="password" placeholder="6文字以上" autocomplete="new-password" />
+          <p class="auth-help">6文字以上で設定してください</p>
+        </div>
+
+        <button id="signupBtn" class="auth-submit">
+          <i class="ti ti-user-plus"></i>
+          アカウント作成
+        </button>
+
+        <p id="errorMsg" class="auth-error" style="display:none"></p>
+
+        <div class="auth-switch">
+          既にアカウントをお持ちの方は
+          <a href="login.html">ログイン</a>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="../js/api.js"></script>
+  <script>
+    const studentIdInput = document.getElementById('studentId');
+    const nicknameInput  = document.getElementById('nickname');
+    const passwordInput  = document.getElementById('password');
+    const signupBtn      = document.getElementById('signupBtn');
+    const errorMsg       = document.getElementById('errorMsg');
+
+    function showError(msg) {
+      errorMsg.textContent = msg;
+      errorMsg.style.display = 'block';
+    }
+
+    function hideError() {
+      errorMsg.style.display = 'none';
+    }
+
+    signupBtn.addEventListener('click', async () => {
+      hideError();
+
+      const studentId = studentIdInput.value.trim();
+      const nickname  = nicknameInput.value.trim();
+      const password  = passwordInput.value;
+
+      if (!studentId || !nickname || !password) {
+        showError('全ての項目を入力してください');
+        return;
+      }
+      if (password.length < 6) {
+        showError('パスワードは6文字以上にしてください');
+        return;
+      }
+
+      signupBtn.disabled = true;
+      signupBtn.innerHTML = '<i class="ti ti-loader"></i> 作成中...';
+
+      const result = await authSignup(studentId, nickname, password);
+
+      if (result && result.status === 'ok') {
+        // 登録成功 → オンボーディングへ
+        window.location.href = 'onboarding.html';
+      } else {
+        showError(result?.error || '登録に失敗しました');
+        signupBtn.disabled = false;
+        signupBtn.innerHTML = '<i class="ti ti-user-plus"></i> アカウント作成';
+      }
+    });
+
+    passwordInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') signupBtn.click();
+    });
+  </script>
+</body>
+</html>

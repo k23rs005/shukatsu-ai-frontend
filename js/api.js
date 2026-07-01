@@ -68,3 +68,65 @@ function postReview(nickname, content, userType) {
     user_type: userType || 'unknown'
   });
 }
+
+// ===== 認証系API =====
+
+// 認証APIはcredentialsを含める必要がある（セッションクッキー送信のため）
+async function authPost(path, body) {
+  try {
+    const res = await fetch(`${BACKEND_URL}${path}`, {
+      method: 'POST',
+      credentials: 'include',  // セッションクッキー送信
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body || {})
+    });
+    const data = await res.json();
+    if (!res.ok) {
+      return { ...data, status: 'error' };
+    }
+    return data;
+  } catch (err) {
+    console.warn(`[auth] ${path} 失敗:`, err.message);
+    return { status: 'error', error: '通信エラーが発生しました' };
+  }
+}
+
+async function authGet(path) {
+  try {
+    const res = await fetch(`${BACKEND_URL}${path}`, {
+      credentials: 'include'
+    });
+    if (!res.ok) throw new Error(`API error: ${res.status}`);
+    return await res.json();
+  } catch (err) {
+    console.warn(`[auth] ${path} 失敗:`, err.message);
+    return null;
+  }
+}
+
+// ユーザー登録
+function authSignup(studentId, nickname, password) {
+  return authPost('/api/auth/signup', {
+    student_id: studentId,
+    nickname: nickname,
+    password: password
+  });
+}
+
+// ログイン
+function authLogin(studentId, password) {
+  return authPost('/api/auth/login', {
+    student_id: studentId,
+    password: password
+  });
+}
+
+// ログアウト
+function authLogout() {
+  return authPost('/api/auth/logout', {});
+}
+
+// 現在のログイン情報取得
+function authMe() {
+  return authGet('/api/auth/me');
+}

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ログイン｜就活AI</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css" />
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/auth.css" />
+</head>
+<body>
+  <div class="auth-page">
+
+    <header class="auth-header">
+      <a href="../index.html" class="auth-back" aria-label="戻る">
+        <i class="ti ti-arrow-left"></i>
+      </a>
+      <h1 class="auth-title">ログイン</h1>
+    </header>
+
+    <main class="auth-main">
+      <div class="auth-card">
+        <div class="auth-logo">
+          <i class="ti ti-robot"></i>
+          就活AI
+        </div>
+        <p class="auth-subtitle">学籍番号とパスワードでログイン</p>
+
+        <div class="auth-field">
+          <label for="studentId">学籍番号</label>
+          <input type="text" id="studentId" placeholder="例：23RS000" autocomplete="username" />
+        </div>
+
+        <div class="auth-field">
+          <label for="password">パスワード</label>
+          <input type="password" id="password" placeholder="6文字以上" autocomplete="current-password" />
+        </div>
+
+        <button id="loginBtn" class="auth-submit">
+          <i class="ti ti-login"></i>
+          ログイン
+        </button>
+
+        <p id="errorMsg" class="auth-error" style="display:none"></p>
+
+        <div class="auth-switch">
+          アカウントをお持ちでない方は
+          <a href="signup.html">新規登録</a>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="../js/api.js"></script>
+  <script>
+    const studentIdInput = document.getElementById('studentId');
+    const passwordInput  = document.getElementById('password');
+    const loginBtn       = document.getElementById('loginBtn');
+    const errorMsg       = document.getElementById('errorMsg');
+
+    function showError(msg) {
+      errorMsg.textContent = msg;
+      errorMsg.style.display = 'block';
+    }
+
+    function hideError() {
+      errorMsg.style.display = 'none';
+    }
+
+    loginBtn.addEventListener('click', async () => {
+      hideError();
+
+      const studentId = studentIdInput.value.trim();
+      const password  = passwordInput.value;
+
+      if (!studentId || !password) {
+        showError('学籍番号とパスワードを入力してください');
+        return;
+      }
+
+      loginBtn.disabled = true;
+      loginBtn.innerHTML = '<i class="ti ti-loader"></i> ログイン中...';
+
+      const result = await authLogin(studentId, password);
+
+      if (result && result.status === 'ok') {
+        // ログイン成功 → オンボーディングへ
+        window.location.href = 'onboarding.html';
+      } else {
+        showError(result?.error || 'ログインに失敗しました');
+        loginBtn.disabled = false;
+        loginBtn.innerHTML = '<i class="ti ti-login"></i> ログイン';
+      }
+    });
+
+    // Enterキーでも送信
+    passwordInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') loginBtn.click();
+    });
+  </script>
+</body>
+</html>
