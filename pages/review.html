@@ -95,6 +95,16 @@
 
   <script src="../js/api.js"></script>
   <script>
+
+    // ===== ログインチェック =====
+(async function checkAuth() {
+  const me = await authMe();
+  if (!me || !me.logged_in) {
+    window.location.href = 'login.html';
+  }
+})();
+
+
     const nicknameInput = document.getElementById('nickname');
     const contentInput = document.getElementById('content');
     const charCount = document.getElementById('charCount');

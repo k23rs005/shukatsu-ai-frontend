@@ -1,3 +1,11 @@
+// ===== ログインチェック =====
+(async function checkAuth() {
+  const me = await authMe();
+  if (!me || !me.logged_in) {
+    window.location.href = 'login.html';
+  }
+})();
+
 // ===== 企業一覧ページ =====
 
 const grid = document.getElementById('companyGrid');
