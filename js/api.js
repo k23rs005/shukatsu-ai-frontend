@@ -103,24 +103,22 @@ async function authGet(path) {
     return null;
   }
 }
-
 // ユーザー登録
-function authSignup(studentId, nickname, password) {
+function authSignup(loginId, nickname, password) {
   return authPost('/api/auth/signup', {
-    student_id: studentId,
+    login_id: loginId,
     nickname: nickname,
     password: password
   });
 }
 
 // ログイン
-function authLogin(studentId, password) {
+function authLogin(loginId, password) {
   return authPost('/api/auth/login', {
-    student_id: studentId,
+    login_id: loginId,
     password: password
   });
 }
-
 // ログアウト
 function authLogout() {
   return authPost('/api/auth/logout', {});

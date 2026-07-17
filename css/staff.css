@@ -1,0 +1,281 @@
+/* ===== キャリセン画面 ===== */
+
+.staff-page {
+  min-height: 100vh;
+  background: #F4F6F9;
+}
+
+/* ヘッダー */
+.staff-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 24px;
+  background: #1B2A47;
+  color: #FFFFFF;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.staff-header-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.staff-header-left i {
+  font-size: 20px;
+  color: #00B4A6;
+}
+
+.staff-logout {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  background: rgba(255,255,255,0.1);
+  color: #FFFFFF;
+  border: none;
+  border-radius: 8px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background 0.2s;
+  font-family: inherit;
+}
+
+.staff-logout:hover {
+  background: rgba(255,255,255,0.2);
+}
+
+/* メイン */
+.staff-main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 28px 24px;
+}
+
+/* 統計 */
+.staff-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.staff-stat-card {
+  background: #FFFFFF;
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+
+.staff-stat-num {
+  font-size: 32px;
+  font-weight: 700;
+  color: #1B2A47;
+  line-height: 1.2;
+}
+
+.staff-stat-label {
+  font-size: 12px;
+  color: #5A6A85;
+  margin-top: 4px;
+}
+
+/* セクション */
+.staff-section {
+  background: #FFFFFF;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  margin-bottom: 24px;
+}
+
+.staff-section-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #1B2A47;
+  margin: 0 0 16px;
+}
+
+/* テーブル */
+.staff-table-wrap {
+  overflow-x: auto;
+}
+
+.staff-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.staff-table th {
+  background: #F4F6F9;
+  color: #5A6A85;
+  font-weight: 600;
+  padding: 10px 14px;
+  text-align: left;
+  border-bottom: 1px solid #E5EBF3;
+  white-space: nowrap;
+}
+
+.staff-table td {
+  padding: 12px 14px;
+  border-bottom: 1px solid #F0F3F8;
+  color: #1B2A47;
+  vertical-align: middle;
+}
+
+.staff-row {
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.staff-row:hover {
+  background: #F8F9FF;
+}
+
+.staff-loading {
+  text-align: center;
+  color: #888780;
+  padding: 32px;
+}
+
+/* タグ */
+.staff-tag {
+  display: inline-block;
+  padding: 2px 8px;
+  background: #E5F5F3;
+  color: #00B4A6;
+  border-radius: 8px;
+  font-size: 11px;
+  margin: 2px;
+}
+
+.staff-no-data {
+  color: #AAAAAA;
+  font-size: 12px;
+}
+
+/* モーダル */
+.staff-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  padding: 20px;
+}
+
+.staff-modal-inner {
+  background: #FFFFFF;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 540px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.staff-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px;
+  border-bottom: 1px solid #E5EBF3;
+}
+
+.staff-modal-header h3 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1B2A47;
+  margin: 0;
+}
+
+.staff-modal-close {
+  background: none;
+  border: none;
+  font-size: 20px;
+  color: #5A6A85;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+}
+
+.staff-modal-body {
+  padding: 24px;
+}
+
+/* 詳細グリッド */
+.staff-detail-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.staff-detail-full {
+  grid-column: 1 / -1;
+}
+
+.staff-detail-item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.staff-detail-label {
+  font-size: 11px;
+  color: #5A6A85;
+  font-weight: 600;
+}
+
+.staff-detail-val {
+  font-size: 13px;
+  color: #1B2A47;
+}
+
+.staff-tags-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+/* プライバシー注記 */
+.staff-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 12px 16px;
+  background: #F4F6F9;
+  border-radius: 8px;
+  font-size: 12px;
+  color: #5A6A85;
+  line-height: 1.6;
+}
+
+.staff-note i {
+  flex-shrink: 0;
+  font-size: 16px;
+  color: #00B4A6;
+  margin-top: 1px;
+}
+
+/* レスポンシブ */
+@media (max-width: 768px) {
+  .staff-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .staff-detail-grid {
+    grid-template-columns: 1fr;
+  }
+}

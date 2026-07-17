@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>キャリア支援センター｜就活AI</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css" />
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/staff.css" />
+</head>
+<body>
+  <div class="staff-page">
+
+    <!-- ヘッダー -->
+    <header class="staff-header">
+      <div class="staff-header-left">
+        <i class="ti ti-robot"></i>
+        <span>就活AI｜キャリア支援センター</span>
+      </div>
+      <button id="logoutBtn" class="staff-logout">
+        <i class="ti ti-logout"></i> ログアウト
+      </button>
+    </header>
+
+    <main class="staff-main">
+
+      <!-- 統計サマリー -->
+      <div class="staff-stats" id="statsArea">
+        <div class="staff-stat-card">
+          <div class="staff-stat-num" id="totalStudents">-</div>
+          <div class="staff-stat-label">登録学生数</div>
+        </div>
+        <div class="staff-stat-card">
+          <div class="staff-stat-num" id="avoidCount">-</div>
+          <div class="staff-stat-label">回避型</div>
+        </div>
+        <div class="staff-stat-card">
+          <div class="staff-stat-num" id="commCount">-</div>
+          <div class="staff-stat-label">コミュ不全型</div>
+        </div>
+        <div class="staff-stat-card">
+          <div class="staff-stat-num" id="lostCount">-</div>
+          <div class="staff-stat-label">迷走型</div>
+        </div>
+      </div>
+
+      <!-- 学生一覧 -->
+      <section class="staff-section">
+        <h2 class="staff-section-title">
+          <i class="ti ti-users"></i> 学生一覧
+        </h2>
+        <div class="staff-table-wrap">
+          <table class="staff-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>ニックネーム</th>
+                <th>型</th>
+                <th>対話回数</th>
+                <th>トピックタグ</th>
+                <th>最終アクセス</th>
+              </tr>
+            </thead>
+            <tbody id="studentTableBody">
+              <tr><td colspan="6" class="staff-loading">読み込み中...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- 詳細モーダル -->
+  <div id="detailModal" class="staff-modal" style="display:none">
+    <div class="staff-modal-inner">
+      <div class="staff-modal-header">
+        <h3 id="modalTitle">学生詳細</h3>
+        <button onclick="closeModal()" class="staff-modal-close">
+          <i class="ti ti-x"></i>
+        </button>
+      </div>
+      <div class="staff-modal-body" id="modalBody"></div>
+    </div>
+  </div>
+
+  <script src="../js/api.js"></script>
+  <script>
+    // ===== 型ラベル =====
+    const typeLabels = {
+      avoid:   '回避・先延ばし型',
+      comm:    'コミュ不全型',
+      lost:    '情報過多・迷走型',
+      unknown: '未判定'
+    };
+
+    const typeColors = {
+      avoid:   'tag-purple',
+      comm:    'tag-teal',
+      lost:    'tag-coral',
+      unknown: ''
+    };
+
+    // ===== ログインチェック =====
+    (async function checkAuth() {
+      const me = await authMe();
+      if (!me || !me.logged_in) {
+        window.location.href = 'login.html';
+        return;
+      }
+      if (me.account.role !== 'career_staff') {
+        // 学生がアクセスしたらオンボーディングへ
+        window.location.href = 'onboarding.html';
+        return;
+      }
+      loadStudents();
+    })();
+
+    // ===== 学生一覧を取得 =====
+    async function loadStudents() {
+      const data = await authGet('/api/staff/students');
+      if (!data || !data.students) {
+        document.getElementById('studentTableBody').innerHTML =
+          '<tr><td colspan="6" class="staff-loading">取得に失敗しました</td></tr>';
+        return;
+      }
+
+      const students = data.students;
+
+      // 統計
+      document.getElementById('totalStudents').textContent = students.length;
+      document.getElementById('avoidCount').textContent =
+        students.filter(s => s.user_type === 'avoid').length;
+      document.getElementById('commCount').textContent =
+        students.filter(s => s.user_type === 'comm').length;
+      document.getElementById('lostCount').textContent =
+        students.filter(s => s.user_type === 'lost').length;
+
+      if (students.length === 0) {
+        document.getElementById('studentTableBody').innerHTML =
+          '<tr><td colspan="6" class="staff-loading">登録学生がいません</td></tr>';
+        return;
+      }
+
+      document.getElementById('studentTableBody').innerHTML = students.map(s => {
+        const typeLabel = typeLabels[s.user_type] || '未判定';
+        const typeColor = typeColors[s.user_type] || '';
+        const tags = s.topic_tags
+          ? s.topic_tags.split(',').filter(t => t.trim()).map(t =>
+              `<span class="staff-tag">${escapeHtml(t.trim())}</span>`
+            ).join('')
+          : '<span class="staff-no-data">なし</span>';
+        const lastAccess = s.updated_at
+          ? new Date(s.updated_at).toLocaleDateString('ja-JP')
+          : '未アクセス';
+
+        return `
+          <tr onclick="openModal(${s.id})" class="staff-row">
+            <td>${escapeHtml(s.login_id || '')}</td>
+            <td>${escapeHtml(s.nickname || '')}</td>
+            <td><span class="tag ${typeColor}">${typeLabel}</span></td>
+            <td>${s.turn_count || 0}回</td>
+            <td>${tags}</td>
+            <td>${lastAccess}</td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    // ===== 詳細モーダル =====
+    async function openModal(accountId) {
+      document.getElementById('detailModal').style.display = 'flex';
+      document.getElementById('modalBody').innerHTML = '<p class="staff-loading">読み込み中...</p>';
+
+      const data = await authGet(`/api/staff/students/${accountId}`);
+      if (!data) {
+        document.getElementById('modalBody').innerHTML = '<p class="staff-loading">取得に失敗しました</p>';
+        return;
+      }
+
+      const { account, user } = data;
+      const typeLabel = typeLabels[user.user_type] || '未判定';
+      const typeColor = typeColors[user.user_type] || '';
+      const tags = user.topic_tags
+        ? user.topic_tags.split(',').filter(t => t.trim()).map(t =>
+            `<span class="staff-tag">${escapeHtml(t.trim())}</span>`
+          ).join('')
+        : '<span class="staff-no-data">なし</span>';
+
+      document.getElementById('modalTitle').textContent =
+        `${account.nickname}（${account.login_id}）`;
+
+      document.getElementById('modalBody').innerHTML = `
+        <div class="staff-detail-grid">
+          <div class="staff-detail-item">
+            <span class="staff-detail-label">判定タイプ</span>
+            <span class="tag ${typeColor}">${typeLabel}</span>
+          </div>
+          <div class="staff-detail-item">
+            <span class="staff-detail-label">対話回数</span>
+            <span class="staff-detail-val">${user.turn_count || 0}回</span>
+          </div>
+          <div class="staff-detail-item">
+            <span class="staff-detail-label">就活の進捗</span>
+            <span class="staff-detail-val">${translateProgress(user.progress)}</span>
+          </div>
+          <div class="staff-detail-item">
+            <span class="staff-detail-label">期待するサポート</span>
+            <span class="staff-detail-val">${translateExpectation(user.expectation)}</span>
+          </div>
+          <div class="staff-detail-item staff-detail-full">
+            <span class="staff-detail-label">トピックタグ</span>
+            <div class="staff-tags-wrap">${tags}</div>
+          </div>
+          <div class="staff-detail-item">
+            <span class="staff-detail-label">登録日</span>
+            <span class="staff-detail-val">${user.created_at ? new Date(user.created_at).toLocaleDateString('ja-JP') : '-'}</span>
+          </div>
+          <div class="staff-detail-item">
+            <span class="staff-detail-label">最終アクセス</span>
+            <span class="staff-detail-val">${user.updated_at ? new Date(user.updated_at).toLocaleDateString('ja-JP') : '-'}</span>
+          </div>
+        </div>
+        <div class="staff-note">
+          <i class="ti ti-info-circle"></i>
+          プライバシー保護のため、会話の内容は表示されません。
+          上記はAIとの対話から自動的に生成されたメタ情報です。
+        </div>
+      `;
+    }
+
+    function closeModal() {
+      document.getElementById('detailModal').style.display = 'none';
+    }
+
+    // ===== 翻訳ヘルパー =====
+    function translateProgress(val) {
+      const map = {
+        none:   'ほぼ何もしていない',
+        start:  'サイト登録くらいはした',
+        active: '説明会や選考に進んでいる',
+        unknown: '不明'
+      };
+      return map[val] || val || '-';
+    }
+
+    function translateExpectation(val) {
+      const map = {
+        listen: 'まず話を聞いてほしい',
+        todo:   '具体的なやることを教えてほしい',
+        career: '自分に向いてる仕事を見つけたい',
+        unknown: '不明'
+      };
+      return map[val] || val || '-';
+    }
+
+    // ===== ログアウト =====
+    document.getElementById('logoutBtn').addEventListener('click', async () => {
+      await authLogout();
+      window.location.href = 'login.html';
+    });
+
+    // ===== XSS対策 =====
+    function escapeHtml(str) {
+      return String(str || '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    // モーダル外クリックで閉じる
+    document.getElementById('detailModal').addEventListener('click', (e) => {
+      if (e.target === document.getElementById('detailModal')) closeModal();
+    });
+  </script>
+</body>
+</html>

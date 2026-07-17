@@ -151,6 +151,8 @@ async function sendMessage(text) {
     if (typeof recordTurn === 'function') {
       recordTurn(conversationId);
     }
+    // トピックタグを更新
+updateTopicTags(text);
   } catch (err) {
     hideTyping();
     appendMessage('ai', 'ちょっと接続エラーが起きちゃった。もう一度試してみて！');
@@ -176,3 +178,34 @@ inputEl.addEventListener('keydown', (e) => {
     handleSend();
   }
 });
+// ===== トピックタグ自動生成 =====
+const TOPIC_KEYWORDS = {
+  '面接不安':   ['面接', '緊張', '話せない', '言葉が出ない', 'うまく話せ'],
+  'ES悩み':     ['ES', 'エントリーシート', '自己PR', '書けない', '書き方'],
+  '業界未定':   ['業界', 'どの業界', '何がしたい', 'やりたいこと', 'わからない'],
+  '就活意欲低': ['めんどくさい', 'したくない', 'やる気', 'だるい', '後でいい'],
+  '大手志向':   ['大手', '有名企業', '有名な会社', 'ネームバリュー'],
+  '情報収集中': ['説明会', 'インターン', 'ナビサイト', 'マイナビ', 'リクナビ'],
+  '面接練習':   ['面接練習', '練習したい', '模擬面接', '練習相手'],
+};
+
+async function updateTopicTags(userMessage) {
+  const matchedTags = [];
+  for (const [tag, keywords] of Object.entries(TOPIC_KEYWORDS)) {
+    if (keywords.some(kw => userMessage.includes(kw))) {
+      matchedTags.push(tag);
+    }
+  }
+  if (matchedTags.length === 0) return;
+
+  try {
+    await fetch(`${BACKEND_URL}/api/turn/tags`, {
+      method: 'POST',
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ tags: matchedTags, session_id: getSessionId() })
+    });
+  } catch (e) {
+    console.warn('タグ更新失敗:', e);
+  }
+}
