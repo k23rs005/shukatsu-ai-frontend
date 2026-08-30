@@ -126,6 +126,20 @@ async function callDifyAPI(userMessage) {
   return data.answer || 'ごめん、ちょっとうまく答えられなかった。もう一回聞いてみて！';
 }
 
+// ===== メッセージ保存 =====
+async function saveMessage(role, content) {
+  try {
+    await fetch(`${BACKEND_URL}/api/messages`, {
+      method: 'POST',
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ session_id: getSessionId(), role, content })
+    });
+  } catch (e) {
+    console.warn('メッセージ保存失敗:', e);
+  }
+}
+
 // ===== 送信処理 =====
 async function sendMessage(text) {
   if (!text.trim()) return;
@@ -133,8 +147,9 @@ async function sendMessage(text) {
   // 初回選択肢を非表示
   document.getElementById('initialChoices')?.remove();
 
-  // ユーザーメッセージ表示
+  // ユーザーメッセージ表示 + 保存
   appendMessage('user', text);
+  saveMessage('user', text);
 
   // キーワードで型を判定してバッジ更新
   updateTypeBadge(detectType(text));
@@ -146,13 +161,14 @@ async function sendMessage(text) {
     const reply = await callDifyAPI(text);
     hideTyping();
     appendMessage('ai', reply);
+    saveMessage('ai', reply);   // ← AI返答も保存
 
     // バックエンドに会話1往復を記録（往復数+1・DifyのconversationID保存）
     if (typeof recordTurn === 'function') {
       recordTurn(conversationId);
     }
     // トピックタグを更新
-updateTopicTags(text);
+    updateTopicTags(text);
   } catch (err) {
     hideTyping();
     appendMessage('ai', 'ちょっと接続エラーが起きちゃった。もう一度試してみて！');
@@ -178,6 +194,7 @@ inputEl.addEventListener('keydown', (e) => {
     handleSend();
   }
 });
+
 // ===== トピックタグ自動生成 =====
 const TOPIC_KEYWORDS = {
   '面接不安':   ['面接', '緊張', '話せない', '言葉が出ない', 'うまく話せ'],
@@ -209,3 +226,31 @@ async function updateTopicTags(userMessage) {
     console.warn('タグ更新失敗:', e);
   }
 }
+
+// ===== 履歴の復元（画面を開いたとき） =====
+async function loadHistory() {
+  try {
+    const res = await fetch(
+      `${BACKEND_URL}/api/messages?session_id=${encodeURIComponent(getSessionId())}`,
+      { credentials: 'include' }
+    );
+    if (!res.ok) return;
+    const data = await res.json();
+    const history = data.messages || [];
+
+    // Difyの会話IDを復元（続きから文脈を引き継ぐ）
+    if (data.dify_conversation_id) {
+      conversationId = data.dify_conversation_id;
+    }
+
+    if (history.length === 0) return; // 履歴なし → 初期画面のまま
+
+    // 初回選択肢を消して、過去の吹き出しを順に描画
+    document.getElementById('initialChoices')?.remove();
+    history.forEach(m => appendMessage(m.role, m.content));
+  } catch (e) {
+    console.warn('履歴の復元に失敗:', e);
+  }
+}
+
+loadHistory();
