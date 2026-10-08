@@ -97,7 +97,7 @@
       const result = await authSignup(loginId, nickname, password);
 
       if (result && result.status === 'ok') {
-        window.location.href = 'onboarding.html';
+        window.location.href = 'chat.html';
       } else {
         showError(result?.error || '登録に失敗しました');
         signupBtn.disabled = false;
