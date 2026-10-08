@@ -1,13 +1,20 @@
 // ===== バックエンドAPI共通設定 =====
 // 常に本番のRenderバックエンドに送信
 const BACKEND_URL = 'https://shukatsu-backend-3d93.onrender.com';
+let activeAccountId = null;
+
+function setActiveAccountId(accountId) {
+  activeAccountId = accountId ? String(accountId) : null;
+}
+
 // ===== session_id の管理 =====
 // 初回アクセス時にランダムなIDを生成してlocalStorageに保存
 function getSessionId() {
-  let sid = localStorage.getItem('sessionId');
+  const storageKey = activeAccountId ? `sessionId:account:${activeAccountId}` : 'sessionId:anonymous';
+  let sid = localStorage.getItem(storageKey);
   if (!sid) {
     sid = 'sess-' + Date.now() + '-' + Math.random().toString(36).slice(2, 10);
-    localStorage.setItem('sessionId', sid);
+    localStorage.setItem(storageKey, sid);
   }
   return sid;
 }

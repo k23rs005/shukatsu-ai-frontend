@@ -18,7 +18,10 @@ let difyUserId = 'student-anonymous';
 
 const studentContextReady = (async function loadStudentContext() {
   const me = await authMe();
-  if (me?.logged_in && me.account?.id) difyUserId = `student-${me.account.id}`;
+  if (me?.logged_in && me.account?.id) {
+    setActiveAccountId(me.account.id);
+    difyUserId = `student-${me.account.id}`;
+  }
   if (me?.logged_in) {
     const data = await getProfile();
     if (data?.profile) studentProfile = data.profile;
@@ -141,6 +144,7 @@ async function saveMessage(role, content) {
 // ===== 送信処理 =====
 async function sendMessage(text) {
   if (!text.trim()) return;
+  await studentContextReady;
 
   // 初回選択肢を非表示
   document.getElementById('initialChoices')?.remove();
@@ -227,6 +231,7 @@ async function updateTopicTags(userMessage) {
 
 // ===== 履歴の復元（画面を開いたとき） =====
 async function loadHistory() {
+  await studentContextReady;
   try {
     const res = await fetch(
       `${BACKEND_URL}/api/messages?session_id=${encodeURIComponent(getSessionId())}`,
