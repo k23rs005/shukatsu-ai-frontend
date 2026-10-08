@@ -25,12 +25,6 @@ const studentContextReady = (async function loadStudentContext() {
   }
 })();
 
-const typeLabels = {
-  avoid: '回避・先延ばし型',
-  comm:  'コミュ不全型',
-  lost:  '情報過多・迷走型'
-};
-
 const typeKeywords = {
   avoid: ['めんどくさい', 'やる気', 'キャンセル', '登録した', '後で', 'だるい', 'したくない'],
   comm:  ['話せない', 'ES', '面接', '相談', '緊張', '苦手', 'うまく'],
@@ -40,30 +34,12 @@ const typeKeywords = {
 // ===== DOM =====
 const messagesEl  = document.getElementById('chatMessages');
 const inputEl     = document.getElementById('chatInput');
-const typeBadgeEl = document.getElementById('typeBadge');
-
-// ===== オンボーディング結果を反映 =====
-const savedType = sessionStorage.getItem('userType');
-if (savedType && typeLabels[savedType]) {
-  detectedType = savedType;
-  typeBadgeEl.textContent = typeLabels[savedType];
-  typeBadgeEl.style.display = 'inline-block';
-}
-
 // ===== 型判定（キーワードベース） =====
 function detectType(text) {
   for (const [type, keywords] of Object.entries(typeKeywords)) {
     if (keywords.some(kw => text.includes(kw))) return type;
   }
   return null;
-}
-
-function updateTypeBadge(type) {
-  if (!detectedType && type) {
-    detectedType = type;
-    typeBadgeEl.textContent = typeLabels[type];
-    typeBadgeEl.style.display = 'inline-block';
-  }
 }
 
 // ===== メッセージ表示 =====
@@ -173,8 +149,8 @@ async function sendMessage(text) {
   appendMessage('user', text);
   saveMessage('user', text);
 
-  // キーワードで型を判定してバッジ更新
-  updateTypeBadge(detectType(text));
+  // 発言ごとの相談傾向を職員向けに記録する（チャット画面には表示しない）
+  detectedType = detectType(text) || detectedType;
 
   // タイピング表示
   showTyping();
@@ -187,7 +163,7 @@ async function sendMessage(text) {
 
     // バックエンドに会話1往復を記録（往復数+1・DifyのconversationID保存）
     if (typeof recordTurn === 'function') {
-      recordTurn(conversationId);
+      recordTurn(conversationId, detectedType || 'unknown');
     }
     // トピックタグを更新
     updateTopicTags(text);

@@ -53,10 +53,22 @@ function saveOnboarding(userType, progress, expectation) {
 }
 
 // 会話1往復を記録
-function recordTurn(difyConversationId) {
-  return apiPost('/api/turn', {
-    session_id:           getSessionId(),
-    dify_conversation_id: difyConversationId || null
+function recordTurn(difyConversationId, userType) {
+  return fetch(`${BACKEND_URL}/api/turn`, {
+    method: 'POST',
+    credentials: 'include',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      session_id: getSessionId(),
+      dify_conversation_id: difyConversationId || null,
+      user_type: userType || 'unknown'
+    })
+  }).then(async res => {
+    if (!res.ok) throw new Error(`API error: ${res.status}`);
+    return res.json();
+  }).catch(err => {
+    console.warn('[backend] /api/turn 呼び出し失敗:', err.message);
+    return null;
   });
 }
 
