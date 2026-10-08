@@ -72,6 +72,9 @@
   color: var(--purple-dark);
   flex-shrink: 0;
 }
+.profile-link { display:flex; align-items:center; justify-content:center; width:34px; height:34px; border-radius:50%; color:var(--text-secondary); background:var(--gray-50); flex-shrink:0; }
+.profile-link:hover { color:var(--purple); background:var(--purple-light); }
+.profile-link i { font-size:18px; }
 
 /* ===== Messages ===== */
 .chat-messages {

@@ -128,3 +128,26 @@ function authLogout() {
 function authMe() {
   return authGet('/api/auth/me');
 }
+
+function getProfile() {
+  return authGet('/api/profile');
+}
+
+function saveProfile(profile) {
+  return authPut('/api/profile', profile);
+}
+
+async function authPut(path, body) {
+  try {
+    const res = await fetch(`${BACKEND_URL}${path}`, {
+      method: 'PUT', credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body || {})
+    });
+    const data = await res.json();
+    return res.ok ? data : { ...data, status: 'error' };
+  } catch (err) {
+    console.warn(`[auth] ${path} 失敗:`, err.message);
+    return { status: 'error', error: '通信エラーが発生しました' };
+  }
+}

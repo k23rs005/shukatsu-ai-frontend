@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>プロフィール — 就活AI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" />
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/profile.css" />
+</head>
+<body class="profile-page">
+  <main class="profile-card">
+    <a class="profile-back" href="chat.html"><i class="ti ti-arrow-left"></i> チャットに戻る</a>
+    <div class="profile-heading"><span class="profile-mark"><i class="ti ti-user-edit"></i></span><div><p class="eyebrow">YOUR PROFILE</p><h1>あなたのプロフィール</h1></div></div>
+    <p class="profile-intro">登録した情報をもとに、AIがあなたに合ったES添削や企業選びを提案します。入力は任意で、あとからいつでも変更できます。</p>
+    <form id="profileForm">
+      <div class="profile-grid">
+        <label>学年<select name="school_year"><option value="">選択してください</option><option>大学1年</option><option>大学2年</option><option>大学3年</option><option>大学4年</option><option>大学院</option><option>その他</option></select></label>
+        <label>興味のある業界<input name="interests" maxlength="300" placeholder="例：IT、広告、メーカー" /></label>
+        <label>希望する職種<input name="desired_role" maxlength="120" placeholder="例：企画、エンジニア、まだ未定" /></label>
+        <label>希望勤務地<input name="desired_location" maxlength="120" placeholder="例：東京、関西、こだわらない" /></label>
+        <label class="wide">自分の強み<textarea name="strengths" maxlength="500" rows="3" placeholder="人からよく褒められること、得意なことなど"></textarea><small>500文字以内</small></label>
+        <label class="wide">これまで力を入れた経験<textarea name="experience" maxlength="1200" rows="5" placeholder="部活、アルバイト、研究、趣味など。まとまっていなくても大丈夫です"></textarea><small>1200文字以内</small></label>
+        <label class="wide">仕事選びで大切にしたいこと<textarea name="work_values" maxlength="500" rows="3" placeholder="例：成長できる環境、チームで働く、働き方の柔軟さ"></textarea><small>500文字以内</small></label>
+      </div>
+      <div class="profile-privacy"><i class="ti ti-lock"></i><span>プロフィールはあなたのアカウントに保存され、AIの回答を個別化するために使われます。</span></div>
+      <div class="profile-actions"><span id="saveMessage" role="status"></span><button class="btn btn-primary" type="submit"><i class="ti ti-device-floppy"></i> 保存する</button></div>
+    </form>
+  </main>
+  <script src="../js/api.js"></script><script src="../js/profile.js"></script>
+</body>
+</html>

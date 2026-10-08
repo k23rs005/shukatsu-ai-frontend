@@ -13,6 +13,17 @@ const DIFY_API_URL = 'https://api.dify.ai/v1/chat-messages';
 // ===== 状態管理 =====
 let conversationId = ''; // DifyがセッションIDを管理
 let detectedType   = null;
+let studentProfile = {};
+let difyUserId = 'student-anonymous';
+
+const studentContextReady = (async function loadStudentContext() {
+  const me = await authMe();
+  if (me?.logged_in && me.account?.id) difyUserId = `student-${me.account.id}`;
+  if (me?.logged_in) {
+    const data = await getProfile();
+    if (data?.profile) studentProfile = data.profile;
+  }
+})();
 
 const typeLabels = {
   avoid: '回避・先延ばし型',
@@ -94,6 +105,16 @@ function hideTyping() {
 
 // ===== Dify API呼び出し =====
 async function callDifyAPI(userMessage) {
+  await studentContextReady;
+  const profileLines = [
+    ['学年', studentProfile.school_year], ['興味のある業界', studentProfile.interests],
+    ['希望職種', studentProfile.desired_role], ['希望勤務地', studentProfile.desired_location],
+    ['強み', studentProfile.strengths], ['これまで力を入れた経験', studentProfile.experience],
+    ['仕事選びで大切にしたいこと', studentProfile.work_values]
+  ].filter(([, value]) => value?.trim()).map(([label, value]) => `${label}: ${value}`);
+  const contextualQuery = profileLines.length
+    ? `【相談者プロフィール】\n${profileLines.join('\n')}\n\nこのプロフィールを踏まえ、本人の経験や希望に沿って具体的に回答してください。情報が足りない場合は決めつけず質問してください。\n\n【相談内容】\n${userMessage}`
+    : userMessage;
   const res = await fetch(DIFY_API_URL, {
     method: 'POST',
     headers: {
@@ -104,10 +125,10 @@ async function callDifyAPI(userMessage) {
       inputs: {
         user_type: detectedType || 'unknown' // 型をDifyに渡す
       },
-      query:           userMessage,
+      query:           contextualQuery,
       response_mode:   'blocking',          // 応答が完成してから返す
       conversation_id: conversationId,      // 空文字なら新規会話
-      user:            'user-001'
+      user:            difyUserId
     })
   });
 

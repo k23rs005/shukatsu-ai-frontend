@@ -1,0 +1,21 @@
+.profile-page { min-height:100vh; padding:36px 18px; background:#f7f6fb; }
+.profile-card { max-width:760px; margin:0 auto; padding:32px; background:#fff; border:1px solid var(--border); border-radius:20px; box-shadow:0 12px 40px rgba(35,30,80,.06); }
+.profile-back { display:inline-flex; gap:6px; align-items:center; color:var(--text-secondary); font-size:13px; margin-bottom:26px; }
+.profile-heading { display:flex; gap:14px; align-items:center; }
+.profile-mark { display:grid; place-items:center; width:48px; height:48px; border-radius:15px; background:var(--purple-light); color:var(--purple); font-size:22px; }
+.eyebrow { color:var(--purple); letter-spacing:.12em; font-size:10px; font-weight:700; margin:0 0 3px; }
+.profile-heading h1 { font-size:24px; margin:0; }
+.profile-intro { color:var(--text-secondary); line-height:1.8; font-size:14px; margin:18px 0 26px; }
+.profile-grid { display:grid; grid-template-columns:1fr 1fr; gap:18px 16px; }
+.profile-grid label { display:flex; flex-direction:column; gap:7px; font-weight:500; font-size:13px; }
+.profile-grid .wide { grid-column:1/-1; }
+.profile-grid input,.profile-grid select,.profile-grid textarea { width:100%; border:1px solid var(--border); border-radius:10px; padding:11px 12px; background:#fff; color:var(--text-primary); font:400 14px inherit; font-family:inherit; outline:none; }
+.profile-grid textarea { resize:vertical; line-height:1.7; }
+.profile-grid input:focus,.profile-grid select:focus,.profile-grid textarea:focus { border-color:var(--purple); box-shadow:0 0 0 3px rgba(83,74,183,.1); }
+.profile-grid input::placeholder,.profile-grid textarea::placeholder { color:var(--text-hint); }
+.profile-grid small { align-self:flex-end; color:var(--text-hint); font-size:11px; margin-top:-4px; }
+.profile-privacy { display:flex; gap:8px; align-items:flex-start; padding:12px; margin-top:22px; border-radius:10px; background:#f8f7ff; color:var(--text-secondary); font-size:12px; line-height:1.6; }
+.profile-privacy i { color:var(--purple); font-size:16px; }
+.profile-actions { display:flex; justify-content:flex-end; align-items:center; gap:14px; margin-top:20px; }
+#saveMessage { color:#21866b; font-size:13px; }
+@media(max-width:600px) { .profile-card { padding:22px 18px; } .profile-grid { grid-template-columns:1fr; } .profile-grid .wide { grid-column:auto; } .profile-heading h1 { font-size:21px; } }
