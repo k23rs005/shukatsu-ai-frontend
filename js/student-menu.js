@@ -9,7 +9,7 @@ document.querySelectorAll('[data-student-logout]').forEach(button => {
     button.disabled = true;
     const result = await authLogout();
     if (result?.status === 'ok') {
-      window.location.href = 'login.html';
+      window.location.href = '../index.html';
       return;
     }
 
