@@ -1,0 +1,71 @@
+.student-menu {
+  position: relative;
+  flex: 0 0 auto;
+  margin-left: auto;
+}
+
+.student-menu > summary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 36px;
+  padding: 0 10px;
+  border-radius: 18px;
+  background: var(--gray-50);
+  color: var(--text-secondary);
+  font-size: 12px;
+  cursor: pointer;
+  list-style: none;
+  white-space: nowrap;
+}
+
+.student-menu > summary::-webkit-details-marker { display: none; }
+.student-menu > summary i { font-size: 17px; }
+.student-menu > summary:hover { color: var(--purple); background: var(--purple-light); }
+
+.student-menu-panel {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  z-index: 30;
+  min-width: 190px;
+  padding: 6px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 10px 28px rgba(24, 32, 56, .14);
+}
+
+.student-menu-panel a,
+.student-menu-panel button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 10px 12px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--text-primary);
+  font: inherit;
+  font-size: 13px;
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.student-menu-panel a:hover,
+.student-menu-panel button:hover { background: var(--gray-50); color: var(--purple); }
+.student-menu-panel i { width: 18px; font-size: 17px; }
+.student-menu-panel button { margin-top: 4px; border-top: 1px solid var(--border); border-radius: 0 0 8px 8px; }
+
+.profile-topbar { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 26px; }
+.profile-topbar .profile-back { margin-bottom: 0; padding: 8px 0; }
+.comp-header .student-menu > summary { background: rgba(255,255,255,.12); color: #fff; }
+.comp-header .student-menu > summary:hover { background: rgba(255,255,255,.22); color: #fff; }
+
+@media (max-width: 420px) {
+  .student-menu > summary { padding: 0 9px; }
+  .student-menu > summary span { display: none; }
+}

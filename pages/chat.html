@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" />
   <link rel="stylesheet" href="../css/style.css" />
   <link rel="stylesheet" href="../css/chat.css" />
+  <link rel="stylesheet" href="../css/student-menu.css" />
 </head>
 <body class="chat-body">
 
@@ -27,7 +28,15 @@
           <p class="chat-status"><span class="status-dot"></span>オンライン</p>
         </div>
       </div>
-      <a class="profile-link" href="profile.html" title="プロフィールを編集" aria-label="プロフィールを編集"><i class="ti ti-user-edit"></i></a>
+      <details class="student-menu">
+        <summary title="メニュー" aria-label="メニューを開く"><i class="ti ti-menu-2"></i><span>メニュー</span></summary>
+        <nav class="student-menu-panel" aria-label="学生メニュー">
+          <a href="chat.html"><i class="ti ti-message-chatbot"></i>AI相談</a>
+          <a href="company.html"><i class="ti ti-building"></i>企業一覧</a>
+          <a href="profile.html"><i class="ti ti-user-edit"></i>プロフィール</a>
+          <button type="button" data-student-logout><i class="ti ti-logout"></i>ログアウト</button>
+        </nav>
+      </details>
     </header>
 
     <!-- Messages -->
@@ -68,6 +77,7 @@
   </div>
 
   <script src="../js/api.js?v=account-isolation-20261008"></script>
+  <script src="../js/student-menu.js"></script>
   <script src="../js/chat.js?v=account-isolation-20261008"></script>
 </body>
 </html>

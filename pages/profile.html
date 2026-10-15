@@ -10,10 +10,22 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" />
   <link rel="stylesheet" href="../css/style.css" />
   <link rel="stylesheet" href="../css/profile.css" />
+  <link rel="stylesheet" href="../css/student-menu.css" />
 </head>
 <body class="profile-page">
   <main class="profile-card">
-    <a class="profile-back" href="chat.html"><i class="ti ti-arrow-left"></i> チャットに戻る</a>
+    <div class="profile-topbar">
+      <a class="profile-back" href="chat.html"><i class="ti ti-arrow-left"></i> チャットに戻る</a>
+      <details class="student-menu">
+        <summary title="メニュー" aria-label="メニューを開く"><i class="ti ti-menu-2"></i><span>メニュー</span></summary>
+        <nav class="student-menu-panel" aria-label="学生メニュー">
+          <a href="chat.html"><i class="ti ti-message-chatbot"></i>AI相談</a>
+          <a href="company.html"><i class="ti ti-building"></i>企業一覧</a>
+          <a href="profile.html"><i class="ti ti-user-edit"></i>プロフィール</a>
+          <button type="button" data-student-logout><i class="ti ti-logout"></i>ログアウト</button>
+        </nav>
+      </details>
+    </div>
     <div class="profile-heading"><span class="profile-mark"><i class="ti ti-user-edit"></i></span><div><p class="eyebrow">YOUR PROFILE</p><h1>あなたのプロフィール</h1></div></div>
     <p class="profile-intro">登録した情報をもとに、AIがあなたに合ったES添削や企業選びを提案します。入力は任意で、あとからいつでも変更できます。</p>
     <form id="profileForm">
@@ -30,6 +42,6 @@
       <div class="profile-actions"><span id="saveMessage" role="status"></span><button class="btn btn-primary" type="submit"><i class="ti ti-device-floppy"></i> 保存する</button></div>
     </form>
   </main>
-  <script src="../js/api.js"></script><script src="../js/profile.js"></script>
+  <script src="../js/api.js"></script><script src="../js/student-menu.js"></script><script src="../js/profile.js"></script>
 </body>
 </html>
