@@ -27,8 +27,8 @@
 
         <div class="auth-field">
           <label for="loginId">ID</label>
-         <input type="text" id="loginId" placeholder="例：kyusan2026" autocomplete="username" />
-          <p class="auth-help">英数字で設定してください</p>
+          <input type="text" id="loginId" placeholder="例：kyusan2026" autocomplete="username" maxlength="50" pattern="[A-Za-z0-9]+" title="半角英数字のみ使用できます" autocapitalize="off" spellcheck="false" required />
+          <p class="auth-help">半角英数字のみ（50文字以内）</p>
         </div>
 
         <div class="auth-field">
@@ -39,8 +39,8 @@
 
         <div class="auth-field">
           <label for="password">パスワード</label>
-          <input type="password" id="password" placeholder="6文字以上" autocomplete="new-password" />
-          <p class="auth-help">6文字以上で設定してください</p>
+          <input type="password" id="password" placeholder="半角英数字・6文字以上" autocomplete="new-password" pattern="[A-Za-z0-9]+" title="半角英数字のみ使用できます" autocapitalize="off" spellcheck="false" required />
+          <p class="auth-help">半角英数字のみ、6文字以上で設定してください</p>
         </div>
 
         <button id="signupBtn" class="auth-submit">
@@ -84,6 +84,16 @@
 
       if (!loginId || !nickname || !password) {
         showError('全ての項目を入力してください');
+        return;
+      }
+      if (!/^[A-Za-z0-9]+$/.test(loginId)) {
+        showError('IDは半角英数字のみで入力してください');
+        loginIdInput.focus();
+        return;
+      }
+      if (!/^[A-Za-z0-9]+$/.test(password)) {
+        showError('パスワードは半角英数字のみで入力してください');
+        passwordInput.focus();
         return;
       }
       if (password.length < 6) {
