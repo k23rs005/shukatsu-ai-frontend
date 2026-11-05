@@ -8,8 +8,14 @@
 .profile-intro { color:var(--text-secondary); line-height:1.8; font-size:14px; margin:18px 0 26px; }
 .profile-grid { display:grid; grid-template-columns:1fr 1fr; gap:18px 16px; }
 .profile-grid label { display:flex; flex-direction:column; gap:7px; font-weight:500; font-size:13px; }
+.profile-support { min-width:0; margin:0; padding:14px; border:1px solid var(--border); border-radius:10px; }
+.profile-support legend { padding:0 4px; font-size:13px; font-weight:500; }
+.profile-support-options { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; }
+.profile-support-options label { display:flex; flex-direction:row; align-items:center; gap:7px; font-weight:400; }
+.profile-support-options input { width:16px; height:16px; accent-color:var(--purple); }
 .profile-grid .wide { grid-column:1/-1; }
 .profile-grid input,.profile-grid select,.profile-grid textarea { width:100%; border:1px solid var(--border); border-radius:10px; padding:11px 12px; background:#fff; color:var(--text-primary); font:400 14px inherit; font-family:inherit; outline:none; }
+.profile-support-options input { flex:0 0 16px; width:16px; height:16px; padding:0; border:0; box-shadow:none; }
 .profile-grid textarea { resize:vertical; line-height:1.7; }
 .profile-grid input:focus,.profile-grid select:focus,.profile-grid textarea:focus { border-color:var(--purple); box-shadow:0 0 0 3px rgba(83,74,183,.1); }
 .profile-grid input::placeholder,.profile-grid textarea::placeholder { color:var(--text-hint); }
@@ -18,4 +24,4 @@
 .profile-privacy i { color:var(--purple); font-size:16px; }
 .profile-actions { display:flex; justify-content:flex-end; align-items:center; gap:14px; margin-top:20px; }
 #saveMessage { color:#21866b; font-size:13px; }
-@media(max-width:600px) { .profile-card { padding:22px 18px; } .profile-grid { grid-template-columns:1fr; } .profile-grid .wide { grid-column:auto; } .profile-heading h1 { font-size:21px; } }
+@media(max-width:600px) { .profile-card { padding:22px 18px; } .profile-grid { grid-template-columns:1fr; } .profile-grid .wide { grid-column:auto; } .profile-support-options { grid-template-columns:1fr 1fr; } .profile-heading h1 { font-size:21px; } }

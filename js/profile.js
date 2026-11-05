@@ -14,6 +14,13 @@ async function initProfile() {
   }
   const profile = data.profile || {};
   for (const [key, value] of Object.entries(profile)) {
+    if (key === 'expectation' && typeof value === 'string') {
+      const selected = new Set(value.split(',').filter(Boolean));
+      profileForm.querySelectorAll('[data-profile-expectation]').forEach(input => {
+        input.checked = selected.has(input.value);
+      });
+      continue;
+    }
     const field = profileForm.elements.namedItem(key);
     if (field && typeof value === 'string') field.value = value;
   }
@@ -26,6 +33,9 @@ profileForm.addEventListener('submit', async (event) => {
   button.disabled = true;
   saveMessage.textContent = '保存中...';
   const profile = Object.fromEntries(new FormData(profileForm).entries());
+  profile.expectation = Array.from(profileForm.querySelectorAll('[data-profile-expectation]:checked'))
+    .map(input => input.value)
+    .join(',');
   const result = await saveProfile(profile);
   button.disabled = false;
   if (result?.status === 'ok') {

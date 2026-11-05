@@ -230,7 +230,7 @@
         <div class="staff-note">
           <i class="ti ti-info-circle"></i>
           プライバシー保護のため、会話の内容は表示されません。
-          上記はAIとの対話から自動的に生成されたメタ情報です。
+          進捗と希望サポートは本人のプロフィール登録内容です。相談分類とトピックタグは会話から記録されます。
         </div>
       `;
     }
@@ -245,9 +245,19 @@
         none:   'ほぼ何もしていない',
         start:  'サイト登録くらいはした',
         active: '説明会や選考に進んでいる',
-        unknown: '不明'
+        not_started: 'まだ始めていない',
+        research: '情報収集中',
+        self_analysis: '自己分析中',
+        company_research: '企業・業界を調べている',
+        es: 'ES・応募書類を作成中',
+        application: '応募・選考中',
+        interview: '面接中',
+        offer: '内定あり',
+        paused: '就活を一時休止中',
+        other: 'その他',
+        unknown: '未登録'
       };
-      return map[val] || val || '-';
+      return map[val] || val || '未登録';
     }
 
     function translateExpectation(val) {
@@ -255,9 +265,18 @@
         listen: 'まず話を聞いてほしい',
         todo:   '具体的なやることを教えてほしい',
         career: '自分に向いてる仕事を見つけたい',
-        unknown: '不明'
+        motivation: '気持ちの整理',
+        first_step: '何から始めるか',
+        self_analysis: '自己分析',
+        company_selection: '企業・業界選び',
+        es_review: 'ES・自己PR',
+        interview_practice: '面接練習',
+        work_conditions: '求人票・労働条件',
+        action_plan: '行動計画',
+        other: 'その他',
+        unknown: '未登録'
       };
-      return map[val] || val || '-';
+      return String(val || '').split(',').map(item => map[item] || item).filter(Boolean).join('、') || '未登録';
     }
 
     // ===== ログアウト =====

@@ -115,6 +115,23 @@
   border-bottom-left-radius: 4px;
   color: var(--text-primary);
 }
+
+.profile-update-card {
+  max-width: min(520px, calc(100vw - 100px));
+  padding: 14px 16px;
+  border: 1px solid var(--border);
+  border-radius: 16px 16px 16px 4px;
+  background: #fff;
+  color: var(--text-primary);
+  font-size: 13px;
+  line-height: 1.6;
+}
+.profile-update-card p { margin: 0 0 8px; }
+.profile-update-card .profile-update-title { font-weight: 700; }
+.profile-update-actions { display:flex; flex-wrap:wrap; gap:8px; margin-top:12px; }
+.profile-update-actions button { border:1px solid var(--border); border-radius:999px; padding:7px 12px; background:#fff; color:var(--text-primary); cursor:pointer; font:inherit; }
+.profile-update-actions .profile-update-save { border-color:var(--purple); background:var(--purple); color:#fff; }
+.profile-update-actions button:disabled { cursor:wait; opacity:.6; }
 .bubble--user {
   background: var(--purple);
   color: #fff;
