@@ -1,9 +1,3 @@
-const companyBackLink = document.querySelector('.comp-back');
-if (companyBackLink && new URLSearchParams(window.location.search).get('return') === 'chat') {
-  companyBackLink.href = 'chat.html';
-  companyBackLink.setAttribute('aria-label', 'チャットに戻る');
-}
-
 document.querySelectorAll('[data-student-logout]').forEach(button => {
   button.addEventListener('click', async () => {
     button.disabled = true;

@@ -79,15 +79,6 @@ function recordTurn(difyConversationId, userType) {
   });
 }
 
-// 感想を投稿
-function postReview(nickname, content, userType) {
-  return apiPost('/api/reviews', {
-    nickname,
-    content,
-    user_type: userType || 'unknown'
-  });
-}
-
 // ===== 認証系API =====
 
 // 認証APIはcredentialsを含める必要がある（セッションクッキー送信のため）
